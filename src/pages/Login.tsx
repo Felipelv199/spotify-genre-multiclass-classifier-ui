@@ -7,11 +7,12 @@ import Container from 'react-bootstrap/Container';
 import Alert from 'react-bootstrap/Alert';
 import MessageSpinner from '../components/utils/MessageSpinner';
 import routes from '../statics/routes/routes.json';
-import server from '../statics/routes/server.json';
 import { actionCreators, State } from '../state';
 import appError from '../utils/appError';
+import SpotifyApi from '../services/SpotifyApi';
 
 const Login = (props: any) => {
+  const spotifyApi = new SpotifyApi('baseUrl', 'redirectUri');
   const history = useHistory();
   const dispatch = useDispatch();
   const { login, logout, removeProfile } = bindActionCreators(
@@ -28,11 +29,7 @@ const Login = (props: any) => {
     async (code: string) => {
       setDisplayAlert(false);
       try {
-        const response = await axios.post(server.SPOTIFY_TOKEN, {
-          code,
-        });
-        const { data } = response;
-        const { token } = data;
+        const { access_token: token } = await spotifyApi.requestAccessToken(code);
         window.localStorage.setItem('token', token);
         login(token);
         history.push(routes.PROFILE);
@@ -52,9 +49,7 @@ const Login = (props: any) => {
     const authenticateSpotify = async () => {
       setDisplayAlert(false);
       try {
-        const response = await axios.get(server.SPOTIFY_AUTH);
-        const { data } = response;
-        window.location.href = data.url;
+        window.location.href = spotifyApi.requestUserAuthorization('clientId');
       } catch (error) {
         if (appError.isUnauthorized(error)) {
           logout();
