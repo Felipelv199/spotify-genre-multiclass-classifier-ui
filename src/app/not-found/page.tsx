@@ -7,7 +7,7 @@ import routes from '../statics/routes/routes.json';
 
 const { Body } = Card;
 
-const NotFound = () => {
+export default function Page() {
   const history = useHistory();
   return (
     <Container
@@ -34,5 +34,3 @@ const NotFound = () => {
     </Container>
   );
 };
-
-export default NotFound;

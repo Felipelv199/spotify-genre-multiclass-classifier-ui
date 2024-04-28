@@ -27,7 +27,7 @@ interface ProfileInfo {
 
 const { Img, Body, Text, Title, Subtitle } = Card;
 
-const Profile = () => {
+export default function Page() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { logout, removeProfile } = bindActionCreators(
@@ -42,6 +42,7 @@ const Profile = () => {
     async (token: string) => {
       setDisplayAlert(false);
       try {
+        // TODO: Replace with fetch
         const response = await axios.get(server.SPOTIFY_USERS_ME, {
           params: { token },
         });
@@ -133,5 +134,3 @@ const Profile = () => {
     </Container>
   );
 };
-
-export default Profile;

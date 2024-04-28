@@ -14,7 +14,7 @@ import CreatePlaylistForm from '../components/utils/CreatePlaylistForm';
 import appError from '../utils/appError';
 import TracksTable from '../components/utils/TracksTable';
 
-const Tracks = () => {
+export default function Page() {
   const dispatch = useDispatch();
   const [tracks, setTracks] = useState<Array<any>>();
   const [genres, setGenres] = useState<Array<string>>([]);
@@ -29,6 +29,7 @@ const Tracks = () => {
 
   const getTracks = useCallback(async () => {
     try {
+      // TODO: Replace with fetch
       const response = await axios.get(server.SPOTIFY_LIBRARY_TRACKS, {
         params: { code: token },
       });
@@ -108,5 +109,3 @@ const Tracks = () => {
     </Container>
   );
 };
-
-export default Tracks;
