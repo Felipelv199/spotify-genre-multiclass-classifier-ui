@@ -5,14 +5,14 @@ const scopesList: string[] = ['user-read-private', 'user-read-email'];
 const baseUrl = 'https://accounts.spotify.com';
 
 export function authorize(): string {
-  const scopes = scopesList.join(' ');
-  const params = querystring.stringify({
-    response_type: 'code',
-    client_id: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
-    scope: scopes,
-    redirect_uri: process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI,
-  });
-  return `${baseUrl}/authorize?${params}`;
+    const scopes = scopesList.join(' ');
+    const params = querystring.stringify({
+        response_type: 'code',
+        client_id: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
+        scope: scopes,
+        redirect_uri: process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI,
+    });
+    return `${baseUrl}/authorize?${params}`;
 }
 
 function buildAuthorizationHeader(): string {
@@ -24,7 +24,7 @@ interface ApiTokenResponseI {
     token_type: string;
     scope: string;
     expires_in: number;
-    refresh_token: number;
+    refresh_token: string;
 }
 
 export async function token(code: string): Promise<ApiTokenResponseI> {
